@@ -1,0 +1,12 @@
+name: dpdpguard_flutter
+description: DPDP Guard Flutter plugin - platform-channel bridge over the native consent engines
+version: 0.1.0
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
+dependencies:
+  flutter:
+    sdk: flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
