@@ -1,0 +1,21 @@
+name: Publish dpdpguard_flutter to pub.dev
+
+# Automated publishing (OIDC) to pub.dev — no PUB_TOKEN secret needed.
+# Requires a one-time setup step on pub.dev under dpdpguard_flutter's
+# Admin > Automated publishing: enable "Publishing from GitHub Actions",
+# Repository=dpdp-guard-ai/dpdpguard-flutter-sdk, Tag pattern=v{{version}}.
+#
+# Triggers: manually (workflow_dispatch), or by pushing a tag matching v*
+# (e.g. `git tag v0.1.1 && git push origin v0.1.1`).
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    permissions:
+      # Required for pub.dev's OIDC trusted-publisher exchange.
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1

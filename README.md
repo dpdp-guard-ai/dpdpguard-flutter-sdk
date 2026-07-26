@@ -105,5 +105,7 @@ flutter test
 `test/client_test.dart` uses `package:http/testing.dart`'s `MockClient` —
 no network access needed.
 
-**Not yet wired:** pub.dev publish credentials — same gap as the other SDK
-packages before their first release.
+Published on pub.dev as [`dpdpguard_flutter`](https://pub.dev/packages/dpdpguard_flutter).
+Releases after `0.1.0` are tag-triggered via `.github/workflows/publish.yml`
+(pub.dev's OIDC "Automated publishing", the same trusted-publisher pattern
+`dpdpguard-react-native-sdk` uses for npm) — push a `v*` tag to publish.
