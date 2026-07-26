@@ -1,5 +1,5 @@
 name: dpdpguard_flutter
-description: DPDP Guard Flutter plugin - platform-channel bridge over the native consent engines
+description: DPDP Guard Flutter SDK - typed HTTP client over the DPDP Guard /api/v1 surface, pure Dart, no platform channel
 version: 0.1.0
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -7,6 +7,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
