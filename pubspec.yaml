@@ -1,6 +1,6 @@
 name: dpdpguard_flutter
 description: DPDP Guard Flutter SDK - typed HTTP client over the DPDP Guard /api/v1 surface, pure Dart, no platform channel
-version: 0.1.0
+version: 1.0.0
 homepage: https://github.com/dpdp-guard-ai/dpdpguard-flutter-sdk
 repository: https://github.com/dpdp-guard-ai/dpdpguard-flutter-sdk
 environment:
