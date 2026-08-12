@@ -28,8 +28,9 @@ void main() {
     expect(actual, fixture);
   });
 
-  test('has exactly the 10 documented codes', () {
-    expect(errorCatalog.length, 10);
+  test('has exactly the 21 documented codes (10 /api/v1 + 11 /mcp/v1 agent surface)',
+      () {
+    expect(errorCatalog.length, 21);
     expect(errorCatalog.map((e) => e.code).toList(), [
       'MINOR_TRACKING_BLOCKED',
       'NOTICE_NOT_PUBLISHED',
@@ -41,6 +42,17 @@ void main() {
       'UNAUTHORIZED',
       'RATE_LIMITED',
       'VALIDATION_ERROR',
+      'SCOPE_INSUFFICIENT',
+      'TOOL_NOT_AVAILABLE',
+      'ORG_DISABLED',
+      'APPROVAL_REQUIRED',
+      'APPROVAL_BACKLOG_FULL',
+      'PROPOSAL_EXPIRED',
+      'SECOND_REVIEWER_REQUIRED',
+      'PROPOSAL_ALREADY_REVIEWED',
+      'DATA_VOLUME_EXCEEDED',
+      'PLAN_LIMIT_REACHED',
+      'AGENT_WRITE_BLOCKED',
     ]);
   });
 

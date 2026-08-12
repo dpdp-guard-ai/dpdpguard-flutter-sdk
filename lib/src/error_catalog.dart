@@ -1,9 +1,12 @@
 /// ADR-002 D2's machine-readable error catalog - mirrored 1:1 from
 /// `contract/conformance/error-catalog.json` (which itself mirrors
-/// `convex/lib/apiErrors.ts`'s `API_ERROR_CODES`). Every non-2xx `/api/v1`
-/// response's `code` field is one of these 10 values (or, per the tolerant-
-/// reader rule, a future additional code this SDK doesn't know about yet -
-/// see [DpdpGuardApiError.typedCode]).
+/// `convex/lib/apiErrors.ts`'s `API_ERROR_CODES`). The first 10 values are
+/// returned by `/api/v1` (the surface this SDK calls); the remaining 11
+/// (`SCOPE_INSUFFICIENT` onward) are specific to the `/mcp/v1` agent surface
+/// (ADR-007) that this mobile client does not call, and are carried here
+/// only to keep the catalog byte-for-byte with upstream. Per the tolerant-
+/// reader rule, any future additional code this SDK doesn't know about yet
+/// is still handled safely - see [DpdpGuardApiError.typedCode].
 ///
 /// Kept as a plain hand-copied list (rather than loaded from an installable
 /// contract package, as the JS/RN SDKs do from `@dpdpguard/contract`)
@@ -70,6 +73,61 @@ const List<ErrorCatalogEntry> errorCatalog = [
     description:
         'The request failed validation and no more specific code applies; the human-readable error message has details.',
   ),
+  ErrorCatalogEntry(
+    code: 'SCOPE_INSUFFICIENT',
+    description:
+        "The agent credential's granted scopes do not cover the requested tool or resource.",
+  ),
+  ErrorCatalogEntry(
+    code: 'TOOL_NOT_AVAILABLE',
+    description:
+        'The requested MCP tool does not exist or is not exposed by the current catalog version.',
+  ),
+  ErrorCatalogEntry(
+    code: 'ORG_DISABLED',
+    description:
+        'The organization has disabled agent access; no agent credential for it can authenticate.',
+  ),
+  ErrorCatalogEntry(
+    code: 'APPROVAL_REQUIRED',
+    description:
+        'The proposed change was accepted into the approval inbox and requires human review before it takes effect.',
+  ),
+  ErrorCatalogEntry(
+    code: 'APPROVAL_BACKLOG_FULL',
+    description:
+        "The organization's pending-approval inbox is at capacity and cannot accept another proposal.",
+  ),
+  ErrorCatalogEntry(
+    code: 'PROPOSAL_EXPIRED',
+    description:
+        "The referenced proposal's TTL has elapsed and it can no longer be approved or rejected.",
+  ),
+  ErrorCatalogEntry(
+    code: 'SECOND_REVIEWER_REQUIRED',
+    description:
+        'The proposal requires a second reviewer and the acting principal is the sole available reviewer without an acknowledgement.',
+  ),
+  ErrorCatalogEntry(
+    code: 'PROPOSAL_ALREADY_REVIEWED',
+    description:
+        'The referenced proposal has already been approved or rejected and cannot be reviewed again.',
+  ),
+  ErrorCatalogEntry(
+    code: 'DATA_VOLUME_EXCEEDED',
+    description:
+        "The requested read would return more data than the agent surface's per-call volume cap allows.",
+  ),
+  ErrorCatalogEntry(
+    code: 'PLAN_LIMIT_REACHED',
+    description:
+        "The organization's subscription plan limit for this resource has been reached.",
+  ),
+  ErrorCatalogEntry(
+    code: 'AGENT_WRITE_BLOCKED',
+    description:
+        'The agent credential attempted a write operation outside its permitted risk class.',
+  ),
 ];
 
 /// Stable machine-readable codes from [errorCatalog], as a closed enum for
@@ -85,6 +143,17 @@ enum ApiErrorCode {
   unauthorized,
   rateLimited,
   validationError,
+  scopeInsufficient,
+  toolNotAvailable,
+  orgDisabled,
+  approvalRequired,
+  approvalBacklogFull,
+  proposalExpired,
+  secondReviewerRequired,
+  proposalAlreadyReviewed,
+  dataVolumeExceeded,
+  planLimitReached,
+  agentWriteBlocked,
 }
 
 const Map<String, ApiErrorCode> _wireValueToApiErrorCode = {
@@ -98,6 +167,17 @@ const Map<String, ApiErrorCode> _wireValueToApiErrorCode = {
   'UNAUTHORIZED': ApiErrorCode.unauthorized,
   'RATE_LIMITED': ApiErrorCode.rateLimited,
   'VALIDATION_ERROR': ApiErrorCode.validationError,
+  'SCOPE_INSUFFICIENT': ApiErrorCode.scopeInsufficient,
+  'TOOL_NOT_AVAILABLE': ApiErrorCode.toolNotAvailable,
+  'ORG_DISABLED': ApiErrorCode.orgDisabled,
+  'APPROVAL_REQUIRED': ApiErrorCode.approvalRequired,
+  'APPROVAL_BACKLOG_FULL': ApiErrorCode.approvalBacklogFull,
+  'PROPOSAL_EXPIRED': ApiErrorCode.proposalExpired,
+  'SECOND_REVIEWER_REQUIRED': ApiErrorCode.secondReviewerRequired,
+  'PROPOSAL_ALREADY_REVIEWED': ApiErrorCode.proposalAlreadyReviewed,
+  'DATA_VOLUME_EXCEEDED': ApiErrorCode.dataVolumeExceeded,
+  'PLAN_LIMIT_REACHED': ApiErrorCode.planLimitReached,
+  'AGENT_WRITE_BLOCKED': ApiErrorCode.agentWriteBlocked,
 };
 
 /// Returns the matching [ApiErrorCode], or `null` if the server sent a code
@@ -118,7 +198,7 @@ class DpdpGuardApiError implements Exception {
 
   DpdpGuardApiError(this.code, this.message, this.status);
 
-  /// The typed [ApiErrorCode], or `null` if [code] isn't one of the 10 known
+  /// The typed [ApiErrorCode], or `null` if [code] isn't one of the 21 known
   /// values.
   ApiErrorCode? get typedCode => apiErrorCodeFromWireValue(code);
 
