@@ -28,7 +28,8 @@ void main() {
     expect(actual, fixture);
   });
 
-  test('has exactly the 21 documented codes (10 /api/v1 + 11 /mcp/v1 agent surface)',
+  test(
+      'has exactly the 21 documented codes (10 /api/v1 + 11 /mcp/v1 agent surface)',
       () {
     expect(errorCatalog.length, 21);
     expect(errorCatalog.map((e) => e.code).toList(), [
