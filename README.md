@@ -89,7 +89,7 @@ needs from `openapi/v1.yaml` — same tradeoff `dpdpguard-android-sdk` and
 `dpdpguard-ios-sdk` make:
 
 - `contract/CONTRACT_VERSION` — the `@dpdpguard/contract` release the files
-  below were last synced against: **1.5.0**.
+  below were last synced against: **1.9.0**.
 - `lib/src/models.dart` — request/response shapes, hand-ported from the
   OpenAPI spec.
 - `lib/src/error_catalog.dart` — the ADR-002 D2 error catalog, hand-copied

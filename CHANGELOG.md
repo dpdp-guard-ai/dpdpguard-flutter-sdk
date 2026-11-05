@@ -5,6 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-11-05
+
+### Changed
+
+- Synced to `@dpdpguard/contract` 1.9.0 (OpenAPI `2.23.1`).
+  `contract/CONTRACT_VERSION` is now `1.9.0`. The error catalog is
+  byte-identical to the vendored copy, so no code changes were needed; every
+  release since 1.5.0 is additive.
+
 ## [1.1.0] - 2026-08-12
 
 ### Added
